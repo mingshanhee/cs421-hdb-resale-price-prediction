@@ -3,6 +3,8 @@ import json
 import pandas as pd
 import numpy as np
 
+from convert_address_to_lat_long import get_lat_long
+
 data_dir = 'data'
 
 filenames = [
