@@ -1,5 +1,5 @@
 import os
-import json 
+import json
 import pandas as pd
 import numpy as np
 
@@ -13,7 +13,7 @@ filenames = [
 ]
 
 def main(filename, raw_dir='raw', processed_dir='processed'):
-    
+
     # Read dataset
     with open(os.path.join(data_dir, raw_dir, filename)) as f:
         data = json.load(f)
@@ -33,14 +33,14 @@ def main(filename, raw_dir='raw', processed_dir='processed'):
 
     # Cleaning data
     data['school_type_ss'] = data['school_type_ss'].apply(lambda x: x[0])
-    
+
     location = data['location_p'].apply(lambda x: x[0].split(',') if isinstance(x, list) else [np.nan, np.nan])
     lat = location.apply(lambda x: x[0])
     long = location.apply(lambda x: x[1])
 
-    data['location_p_lat'] = lat
-    data['location_p_long'] = long
-    data = data.drop('location_p', axis=1)
+    data['lat'] = lat
+    data['long'] = long
+    data.drop('location_p', axis=1, inplace=True)
 
     # Update columns
     data.columns = [
@@ -51,8 +51,8 @@ def main(filename, raw_dir='raw', processed_dir='processed'):
         'school_area',
         'school_address',
         'school_postal_code',
-        'school_lat',
-        'school_long'
+        'lat',
+        'long'
     ]
 
     filename = filename.replace('.json', '.csv')
